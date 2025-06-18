@@ -1,0 +1,1 @@
+dbt show --select stg_movies --limit 5

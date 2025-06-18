@@ -1,0 +1,37 @@
+version: 2
+
+models:
+  - name: dim_movies
+    description: "Movie dimension table with cleaned and enhanced movie attributes"
+    columns:
+      - name: movieId
+        description: "Primary key - unique movie identifier"
+        data_tests:
+          - unique
+          - not_null
+      - name: movie_title
+        description: "Movie title with proper capitalization"
+      - name: genre_array
+        description: "Array of genres for the movie"
+      - name: genres
+        description: "Original pipe-separated genre string"
+
+  - name: dim_users
+    description: "User dimension containing all users who have rated movies or added tags"
+    columns:
+      - name: user_id
+        description: "Primary key - unique user identifier"
+        data_tests:
+          - unique
+          - not_null
+
+  - name: dim_genome_tags
+    description: "Tag definitions from the genome dataset"
+    columns:
+      - name: tag_id
+        description: "Primary key - unique tag identifier"
+        data_tests:
+          - unique
+          - not_null
+      - name: tag_name
+        description: "Human-readable tag name with proper capitalization"

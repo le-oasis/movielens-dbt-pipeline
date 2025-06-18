@@ -1,0 +1,103 @@
+# models/staging/sources.yml
+# Complete documentation for all source tables
+
+version: 2
+
+sources:
+  - name: movielens_staging
+    description: "Raw MovieLens data loaded from CSV files in Google Cloud Storage"
+    database: testing-345209
+    schema: movielens_staging
+    tables:
+      - name: movies_staging
+        description: "Raw movie data with titles and genres"
+        columns:
+          - name: movieId
+            description: "Unique movie identifier"
+            data_tests:
+              - not_null
+              - unique
+          - name: title
+            description: "Movie title including release year in parentheses"
+            data_tests:
+              - not_null
+          - name: genres
+            description: "Pipe-separated list of movie genres"
+      
+      - name: ratings_staging
+        description: "User ratings for movies (20M+ records)"
+        columns:
+          - name: userId
+            description: "Unique user identifier"
+            data_tests:
+              - not_null
+          - name: movieId
+            description: "Movie being rated"
+            data_tests:
+              - not_null
+          - name: rating
+            description: "Rating on 0.5-5.0 scale in 0.5 increments"
+            data_tests:
+              - not_null
+          - name: timestamp
+            description: "Unix timestamp when rating was given"
+      
+      - name: genome_scores_staging
+        description: "Movie-tag relevance scores from genome project (11M+ records)"
+        columns:
+          - name: movieId
+            description: "Movie identifier"
+            data_tests:
+              - not_null
+          - name: tagId
+            description: "Tag identifier from genome dataset"
+            data_tests:
+              - not_null
+          - name: relevance
+            description: "Relevance score between 0.0 and 1.0"
+            data_tests:
+              - not_null
+      
+      - name: genome_tags_staging
+        description: "Tag definitions for genome project (1,128 unique tags)"
+        columns:
+          - name: tagId
+            description: "Unique tag identifier"
+            data_tests:
+              - not_null
+              - unique
+          - name: tag
+            description: "Human-readable tag name"
+            data_tests:
+              - not_null
+
+      - name: links_staging
+        description: "External links to IMDB and TMDB for movies"
+        columns:
+          - name: movieId
+            description: "Movie identifier"
+            data_tests:
+              - not_null
+              - unique
+          - name: imdbId
+            description: "IMDB movie identifier (without 'tt' prefix)"
+          - name: tmdbId
+            description: "The Movie Database identifier"
+
+      - name: tags_staging
+        description: "User-generated tags for movies (465K+ records)"
+        columns:
+          - name: userId
+            description: "User who created the tag"
+            data_tests:
+              - not_null
+          - name: movieId
+            description: "Movie being tagged"
+            data_tests:
+              - not_null
+          - name: tag
+            description: "Freeform tag text"
+            data_tests:
+              - not_null
+          - name: timestamp
+            description: "Unix timestamp when tag was created"

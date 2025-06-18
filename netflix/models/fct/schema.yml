@@ -1,0 +1,32 @@
+version: 2
+
+models:
+  - name: fct_genome_scores
+    description: "Fact table containing movie-tag relevance scores from genome data"
+    columns:
+      - name: movie_id
+        description: "Foreign key to dim_movies"
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_movies')
+              field: movieId
+      
+      - name: tag_id
+        description: "Foreign key to dim_genome_tags"
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_genome_tags')
+              field: tag_id
+      
+      - name: relevance
+        description: "Relevance score between 0 and 1"
+        data_tests:
+          - not_null
+      
+      - name: relevance_category
+        description: "Categorical grouping of relevance scores"
+        data_tests:
+          - accepted_values:
+              values: ['Very High', 'High', 'Medium', 'Low', 'Very Low']
